@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La bottega delle api di Simone - Prodotti Naturali dell'Alveare</title>
+    <style>
+        body {
+            font-family: 'Time New Roman', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('sfondo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #333;
+        }
+
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.35);  
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(255, 215, 0, 0.9);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: 3px solid #8B4513;
+            position: relative;
+        }
+
+        h1 {
+            margin: 0;
+            color: #8B4513;
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .cart-icon {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            background-color: #8B4513;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8em;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .products-container {
+            flex: 3;
+            padding-right: 20px;
+        }
+
+        .cart-container {
+            flex: 1;
+            position: sticky;
+            top: 20px;
+            height: fit-content;
+            margin-left: 20px;
+        }
+
+        .product {
+            background-color: rgba(255, 255, 255, 0.75);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #FFD700;
+        }
+
+        .product-title {
+            color: #8B4513;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .product-description {
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 1.5em;
+            color: #8B4513;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .product-images {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .product-image-container {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .product-image {
+            width: 300px;
+            height: 400px;
+            border-radius: 3px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s;
+        }
+
+        .product-image:hover {
+            transform: scale(1.05);
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .quantity-selector {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity-selector label {
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .quantity-selector input {
+            width: 60px;
+            padding: 5px;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .unit-price {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .add-to-cart {
+            background-color: #FFD700;
+            color: #8B4513;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .add-to-cart:hover {
+            background-color: #8B4513;
+            color: #FFD700;
+        }
+
+        .cart {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .cart h2 {
+            color: #8B4513;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed #FFD700;
+        }
+
+        .cart-item-name {
+            flex: 2;
+        }
+
+        .cart-item-quantity {
+            flex: 1;
+            text-align: center;
+        }
+
+        .cart-item-price {
+            flex: 1;
+            text-align: right;
+        }
+
+        .remove-item {
+            color: #ff0000;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .cart-total {
+            font-size: 1.3em;
+            color: #8B4513;
+            font-weight: bold;
+            text-align: right;
+            margin: 20px 0;
+            padding-top: 10px;
+            border-top: 2px solid #FFD700;
+        }
+
+        .checkout-form {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 1px solid #FFD700;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #8B4513;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #FFD700;
+            border-radius: 5px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .checkout-button {
+            background-color: #8B4513;
+            color: #FFD700;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .checkout-button:hover {
+            background-color: #FFD700;
+            color: #8B4513;
+        }
+
+        footer {
+            background-color: rgba(139, 69, 19, 0.9);
+            color: #FFD700;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+            
+            .products-container, .cart-container {
+                padding-right: 0;
+                margin-left: 0;
+                width: 100%;
+            }
+            
+            .product-images {
+                flex-direction: column;
+            }
+            
+            .product-image-container {
+                width: 100%;
+                margin-bottom: 15px;
+            }
+            
+            .cart-container {
+                position: relative;
+                top: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <h1>La bottega delle api di Simone</h1>
+            <p>I migliori prodotti dell'alveare, direttamente dalla natura</p>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒 <span class="cart-count" id="cart-count">0</span>
+            </div>
+        </header>
+
+        <div class="container">
+            <div class="products-container">
+
+                <!-- Primo prodotto -->
+                <div class="product">
+                    <h2 class="product-title">Miele d'Acacia</h2>
+                    <p class="product-description">
+ Il miele di acacia è uno dei mieli monoflora più diffusi e apprezzati in Italia e nel mondo. La sua delicatezza, il colore chiaro e la capacità di rimanere liquido a lungo lo rendono ideale anche per chi non ama i sapori troppo forti. È spesso il miele preferito dai bambini e da chi cerca un dolcificante naturale per bevande e alimenti. Le sue proprietà benefiche, unite alla grande versatilità in cucina, lo rendono un prodotto di altissima qualità.
+<p>
+🌳 Origine botanica
+Il miele di acacia proviene principalmente dai fiori della Robinia pseudoacacia, nota anche come falsa acacia o semplicemente “acacia” (che in realtà non appartiene al genere Acacia).
+Pianta originaria del Nord America, oggi è ampiamente naturalizzata in Europa, soprattutto in Italia.
+Fioritura: tra fine aprile e maggio, ma può variare in base al clima e all'altitudine.
+Le fioriture sono molto sensibili al maltempo (pioggia o vento possono compromettere la raccolta del nettare).
+<p>
+🍯 Caratteristiche organolettiche
+Colore:
+Molto chiaro, da trasparente a giallo paglierino pallido, quasi incolore.
+Odore:
+Delicato, floreale, vanigliato.
+Ricorda il profumo dei fiori dell’acacia, ma in modo tenue.
+Sapore:
+Molto dolce e leggero, con nessuna nota amara.
+Gusto semplice, molto gradevole anche per i palati più sensibili.
+Cristallizzazione:
+Estremamente lenta (può rimanere liquido per oltre un anno).
+Questo grazie all’elevato contenuto di fruttosio rispetto al glucosio.
+<p>
+🧪 Composizione e proprietà
+Composizione:
+Ricco di fruttosio (fino al 40-45%), povero di glucosio.
+Contiene vitamine del gruppo B, antiossidanti, acidi organici e oligoelementi (potassio, calcio, fosforo).
+Ha un pH basso e una scarsa acidità.
+Proprietà benefiche:
+Dolcificante naturale ideale anche per diabetici lievi (previo parere medico).
+Lassativo leggero e regolatore intestinale.
+Lenitivo e calmante per la gola e le mucose.
+Aiuta in caso di acidità gastrica.
+Adatto a bambini, anziani e sportivi grazie alla digeribilità.
+<p>
+📍 Zone di produzione in Italia
+L’Italia è uno dei maggiori produttori di miele di acacia in Europa. Le regioni più vocate sono:
+Piemonte (Monferrato, Langhe)
+Lombardia (Prealpi, Valtellina)
+Veneto (Pedemontana)
+Toscana
+Emilia-Romagna
+Abruzzo
+Friuli Venezia Giulia
+Le zone collinari e montane tra i 200 e i 900 metri sono le più favorevoli alla fioritura e alla raccolta.
+<p>
+🍽️ Usi in cucina
+Il miele di acacia è tra i più versatili:
+Perfetto per:
+Dolcificare tè, caffè, tisane senza alterarne il sapore.
+Yogurt, frutta, cereali, latte, gelato.
+Preparazione di dolci, biscotti, torte, anche al posto dello zucchero.
+Abbinamenti delicati con formaggi freschi (ricotta, robiola, caprino).
+Utile anche nella preparazione di sciroppi e infusi medicinali.
+Non copre il gusto degli altri ingredienti, motivo per cui è spesso usato in cucina e pasticceria.
+<p>
+⚠️ Controindicazioni
+Non somministrare a bambini sotto i 12 mesi (rischio botulismo).
+Pur essendo meglio tollerato, va consumato con cautela in caso di diabete.
+Possibili reazioni allergiche in soggetti molto sensibili al polline o ai prodotti dell’alveare.
+ </p>
+ <div class="product-images">
+ <div class="product-image-container">
+ <div class="product-image">
+ <img src="acacia250.jpg" alt="Miele d'acacia">
+ </div>
+                            <div class="quantity-selector">
+                                <label for="miele1">Quantità:</label>
+                                <input type="number" id="miele1" name="miele1" min="0" value="0" data-price="5.00" data-product="Miele d'Acacia" data-id="miele1">
+                            </div>
+                            <div class="unit-price">€5,00 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="acacia500.jpg" alt="Vasetto di miele">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="miele2">Quantità:</label>
+                                <input type="number" id="miele2" name="miele2" min="0" value="0" data-price="9.00" data-product="Miele d'acacia" data-id="miele2">
+                            </div>
+                            <div class="unit-price">€9,00 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="acacia1000.jpg" alt="Miele d'Acacia">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="miele3">Quantità:</label>
+                                <input type="number" id="miele3" name="miele3" min="0" value="0" data-price="14.00" data-product="Miele d'acacia" data-id="miele3">
+                            </div>
+                            <div class="unit-price">€14,00 l'uno</div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('miele')">Aggiungi al carrello</button>
+                </div>
+
+
+
+ <!-- Secondo prodotto -->
+                <div class="product">
+                    <h2 class="product-title">Miele di tiglio</h2>
+                    <p class="product-description">
+Il miele di tiglio è una delle varietà monoflora più pregiate e apprezzate del miele, noto per il suo aroma distintivo e le sue proprietà benefiche.
+<p></p>
+🌳 Origine botanica
+Deriva principalmente dal nettare dei fiori del tiglio (Tilia spp.), una pianta molto comune nei parchi e nei boschi dell'Europa e dell’Asia.
+Le specie più comuni da cui proviene il miele sono:
+Tilia cordata (tiglio selvatico o tiglio selvatico)
+Tilia platyphyllos (tiglio a grandi foglie)
+Tilia tomentosa (tiglio argentato)
+<p></p>
+🍯 Caratteristiche organolettiche
+Colore:
+Chiaro, da giallo paglierino a ambra chiaro quando liquido.
+Quando cristallizzato può diventare biancastro o giallo opaco.
+Cristallizzazione:
+Tende a cristallizzare lentamente, ma quando lo fa assume una consistenza fine e cremosa.
+Odore:
+Molto intenso, balsamico, mentolato, a volte ricorda le foglie di menta o le erbe officinali.
+Sentori di legno fresco, canfora o timo.
+Sapore:
+Deciso, persistente, con una nota fresca e leggermente amara.
+Spesso avvertibile una sensazione di freschezza in bocca (simile al mentolo).
+<p></p>
+🧪 Composizione e proprietà
+Principi attivi:
+Ricco di flavonoidi, polifenoli, antiossidanti, oli essenziali (come il farnesolo) e vitamine del gruppo B.
+Contiene zuccheri semplici (glucosio, fruttosio) in proporzioni variabili.
+Proprietà benefiche:
+Sedativo naturale: utile in caso di insonnia, ansia, stress.
+Antinfiammatorio e calmante: usato per mal di gola e tosse.
+Digestivo: aiuta a combattere gonfiori e difficoltà digestive.
+Disintossicante e depurativo: agisce sul fegato e sui reni.
+Antibatterico: come molti mieli, ha un potere antisettico.
+<p></p>
+📍 Zone di produzione in Italia
+Piemonte, Lombardia, Veneto, Trentino-Alto Adige, Toscana, e alcune zone appenniniche.
+
+I mieli prodotti in montagna sono spesso considerati di qualità superiore.
+<p></p>
+🍽️ Usi in cucina
+Ottimo al naturale, su pane o yogurt.
+Perfetto per tisane rilassanti (soprattutto con fiori di tiglio o camomilla).
+Si abbina bene con:
+Formaggi erborinati (es. gorgonzola)
+Formaggi di capra
+Piatti speziati
+Utilizzato anche in cosmesi naturale, come ingrediente lenitivo.
+<p></p>
+⚠️ Controindicazioni
+Come tutti i mieli, non va somministrato a bambini sotto 1 anno per rischio botulismo.
+Da consumare con moderazione in caso di diabete (per l’alto contenuto zuccherino).
+                    </p>
+                    
+                    <div class="product-images">
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="tiglio250.jpg" alt="Miele di tiglio">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="miele4">Quantità:</label>
+                                <input type="number" id="miele4" name="miele4" min="0" value="0" data-price="5.00" data-product="Miele di tiglio" data-id="miele4">
+                            </div>
+                            <div class="unit-price">€5,00 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="tiglio500.jpg" alt="Miele di tiglio">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="miele5">Quantità:</label>
+                                <input type="number" id="miele5" name="miele5" min="0" value="0" data-price="9.00" data-product="Miele di tiglio" data-id="miele5">
+                            </div>
+                            <div class="unit-price">€9,00 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="tiglio1000.jpg" alt="Miele di tiglio">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="miele6">Quantità:</label>
+                                <input type="number" id="miele6" name="miele6" min="0" value="0" data-price="14.00" data-product="Miele di tiglio" data-id="miele6">
+                            </div>
+                            <div class="unit-price">€14,00 l'uno</div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('miele')">Aggiungi al carrello</button>
+                </div>
+
+
+
+
+
+
+
+
+
+                <!-- Quinto prodotto -->
+                <div class="product">
+                    <h2 class="product-title">Propoli Pura in Tintura</h2>
+                    <p class="product-description">
+                        La propoli è una sostanza resinosa che le api raccolgono dalle gemme e dalla corteccia delle piante. 
+                        La nostra tintura di propoli al 30% è un potente antibatterico, antivirale e antinfiammatorio naturale. 
+                        Ideale per rafforzare le difese immunitarie, alleviare mal di gola e infiammazioni del cavo orale. 
+                        Prodotto 100% naturale, senza additivi o conservanti chimici.
+                    </p>
+                    <div class="product-price">€12,50 / 50ml</div>
+                    
+                    <div class="product-images">
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1584824486539-53bb4646bdbc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Propoli in gocce">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="propoli1">Quantità:</label>
+                                <input type="number" id="propoli1" name="propoli1" min="0" value="0" data-price="12.50" data-product="Propoli Pura" data-id="propoli1">
+                            </div>
+                            <div class="unit-price">€12,50 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1587049633312-d628aefffb97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Propoli grezza">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="propoli2">Quantità:</label>
+                                <input type="number" id="propoli2" name="propoli2" min="0" value="0" data-price="12.50" data-product="Propoli Pura" data-id="propoli2">
+                            </div>
+                            <div class="unit-price">€12,50 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1587049633316-d628aefffb97?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Flacone di propoli">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="propoli3">Quantità:</label>
+                                <input type="number" id="propoli3" name="propoli3" min="0" value="0" data-price="12.50" data-product="Propoli Pura" data-id="propoli3">
+                            </div>
+                            <div class="unit-price">€12,50 l'uno</div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('propoli')">Aggiungi al carrello</button>
+                </div>
+
+                <!-- Sesto prodotto -->
+                <div class="product">
+                    <h2 class="product-title">Cera d'Api Naturale</h2>
+                    <p class="product-description">
+                        La nostra cera d'api è ottenuta dai favi delle nostre arnie, lavorata a freddo per mantenere intatte 
+                        tutte le sue proprietà. Ideale per la produzione di candele naturali, cosmetici fatti in casa, 
+                        lucido per mobili e per la conservazione degli alimenti. La cera d'api emana un delicato profumo 
+                        di miele e brucia in modo pulito, senza rilasciare sostanze nocive.
+                    </p>
+                    <div class="product-price">€6,90 / 100g</div>
+                    
+                    <div class="product-images">
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1587049635366-e6a7765121d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Favi di cera">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="cera1">Quantità:</label>
+                                <input type="number" id="cera1" name="cera1" min="0" value="0" data-price="6.90" data-product="Cera d'Api" data-id="cera1">
+                            </div>
+                            <div class="unit-price">€6,90 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1587049635366-e6a7765121d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Lastre di cera">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="cera2">Quantità:</label>
+                                <input type="number" id="cera2" name="cera2" min="0" value="0" data-price="6.90" data-product="Cera d'Api" data-id="cera2">
+                            </div>
+                            <div class="unit-price">€6,90 l'uno</div>
+                        </div>
+                        <div class="product-image-container">
+                            <div class="product-image">
+                                <img src="https://images.unsplash.com/photo-1587049635366-e6a7765121d5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cera d'api in panetti">
+                            </div>
+                            <div class="quantity-selector">
+                                <label for="cera3">Quantità:</label>
+                                <input type="number" id="cera3" name="cera3" min="0" value="0" data-price="6.90" data-product="Cera d'Api" data-id="cera3">
+                            </div>
+                            <div class="unit-price">€6,90 l'uno</div>
+                        </div>
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart('cera')">Aggiungi al carrello</button>
+                </div>
+            </div>
+
+            <!-- Carrello laterale -->
+            <div class="cart-container" id="cart-container">
+                <div class="cart">
+                    <h2>Il Tuo Carrello</h2>
+                    <div id="cart-items">
+                        <p>Il carrello è vuoto</p>
+                    </div>
+                    <div class="cart-total">Totale: €<span id="total-price">0.00</span></div>
+                </div>
+
+                <!-- Form per l'acquisto via email -->
+                <div class="checkout-form">
+                    <h3>Completa l'acquisto</h3>
+                    <p>Invieremo i dettagli dell'ordine e le istruzioni per il pagamento alla tua email</p>
+                    
+                    <div class="form-group">
+                        <label for="name">Nome e Cognome:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Indirizzo di spedizione:</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="notes">Note aggiuntive:</label>
+                        <textarea id="notes" name="notes" rows="3"></textarea>
+                    </div>
+                    
+                    <button class="checkout-button" onclick="checkout()">Conferma Ordine</button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Api&Co - Azienda Agricola Biologica</p>
+            <p>Via del Miele 123, 00100 Roma - P.IVA 12345678901</p>
+            <p>Email: info@api-eco.it - Tel: +39 06 1234567</p>
+        </footer>
+    </div>
+
+    <script>
+        // Carrello
+        let cart = [];
+        
+        // Mostra/nascondi carrello su mobile
+        function toggleCart() {
+            const cartContainer = document.getElementById('cart-container');
+            if (window.innerWidth <= 768) {
+                cartContainer.style.display = cartContainer.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+        
+        // Aggiungi prodotti al carrello
+        function addToCart(productType) {
+            // Trova tutti gli input per questo tipo di prodotto
+            const inputs = document.querySelectorAll(`input[data-id^="${productType}"]`);
+            let addedItems = false;
+            
+            inputs.forEach(input => {
+                const quantity = parseInt(input.value);
+                if (quantity > 0) {
+                    addedItems = true;
+                    const productName = input.getAttribute('data-product');
+                    const price = parseFloat(input.getAttribute('data-price'));
+                    const productId = input.getAttribute('data-id');
+                    
+                    // Cerca se il prodotto è già nel carrello
+                    const existingItemIndex = cart.findIndex(item => item.id === productId);
+                    
+                    if (existingItemIndex !== -1) {
+                        // Aggiorna la quantità se il prodotto esiste già
+                        cart[existingItemIndex].quantity += quantity;
+                    } else {
+                        // Aggiungi nuovo prodotto al carrello
+                        cart.push({
+                            id: productId,
+                            name: productName,
+                            price: price,
+                            quantity: quantity
+                        });
+                    }
+                    
+                    // Resetta la quantità
+                    input.value = 0;
+                }
+            });
+            
+            if (addedItems) {
+                updateCart();
+            } else {
+                alert('Per favore seleziona almeno una quantità per aggiungere al carrello');
+            }
+        }
+        
+        // Rimuovi prodotto dal carrello
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCart();
+        }
+        
+        // Aggiorna il carrello
+        function updateCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalPriceElement = document.getElementById('total-price');
+            const cartCountElement = document.getElementById('cart-count');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Il carrello è vuoto</p>';
+                totalPriceElement.textContent = '0.00';
+                cartCountElement.textContent = '0';
+                return;
+            }
+            
+            let total = 0;
+            let totalItems = 0;
+            cartItemsContainer.innerHTML = '';
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                totalItems += item.quantity;
+                
+                const itemElement = document.createElement('div');
+                itemElement.className = 'cart-item';
+                itemElement.innerHTML = `
+                    <div class="cart-item-name">${item.name}</div>
+                    <div class="cart-item-quantity">${item.quantity}</div>
+                    <div class="cart-item-price">€${itemTotal.toFixed(2)}</div>
+                    <span class="remove-item" onclick="removeFromCart('${item.id}')">✕</span>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+            
+            totalPriceElement.textContent = total.toFixed(2);
+            cartCountElement.textContent = totalItems;
+        }
+        
+        // Checkout
+        function checkout() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+            const notes = document.getElementById('notes').value;
+            const total = document.getElementById('total-price').textContent;
+            
+            if (!name || !email || !address) {
+                alert('Per favore compila tutti i campi obbligatori');
+                return;
+            }
+            
+            if (cart.length === 0) {
+                alert('Per favore aggiungi almeno un prodotto al carrello');
+                return;
+            }
+            
+            // Creare il corpo dell'email
+            let emailBody = `Nuovo ordine da Api&Co\n\n`;
+            emailBody += `Cliente: ${name}\n`;
+            emailBody += `Email: ${email}\n`;
+            emailBody += `Indirizzo: ${address}\n`;
+            emailBody += `Note: ${notes || 'Nessuna nota'}\n\n`;
+            emailBody += `Prodotti ordinati:\n`;
+            
+            cart.forEach(item => {
+                emailBody += `${item.name}: ${item.quantity} x €${item.price.toFixed(2)} = €${(item.quantity * item.price).toFixed(2)}\n`;
+            });
+            
+            emailBody += `\nTOTALE: €${total}\n`;
+            
+            // Invia l'email (simulazione)
+            alert('Ordine inviato con successo! Ti invieremo una email con i dettagli per il pagamento.\n\n' + emailBody);
+            
+            // Svuota il carrello
+            cart = [];
+            updateCart();
+            
+            // Pulisci il form
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('address').value = '';
+            document.getElementById('notes').value = '';
+            
+            // Qui in un'applicazione reale potresti usare un servizio di email o un backend
+            // window.location.href = `mailto:info@api-eco.it?subject=Nuovo ordine da ${name}&body=${encodeURIComponent(emailBody)}`;
+        }
+        
+        // Nascondi il carrello su mobile al caricamento
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('cart-container').style.display = 'none';
+            }
+        });
+        
+        // Gestione responsive
+        window.addEventListener('resize', function() {
+            const cartContainer = document.getElementById('cart-container');
+            if (window.innerWidth > 768) {
+                cartContainer.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
