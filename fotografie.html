@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La bottega delle api di Simone - Galleria Fotografica</title>
+    <style>
+        body {
+            font-family: 'Kings', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('sfondo.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            color: #333;
+        }
+
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.35);
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: rgba(255, 215, 0, 0.35);
+            padding: 20px 5px;
+            text-align: center;
+            border-bottom: 3px solid #8B4513;
+            position: relative;
+            font-size: 2.0em;
+        }
+
+        h1 {
+            margin: 0;
+            color: rgba(0, 0, 0, 1);
+            font-size: 2.5em;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .sottotitolo {
+            font-size: 1.4em;
+            margin-top: 10px;
+            color: #8B4513;
+            font-weight: bold;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: #8B4513;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #5a2d0c;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .gallery-title {
+            text-align: center;
+            color: #8B4513;
+            margin-bottom: 30px;
+            font-size: 2em;
+            border-bottom: 2px solid #FFD700;
+            padding-bottom: 10px;
+        }
+
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .photo-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+            aspect-ratio: 4/3;
+        }
+
+        .photo-item:hover {
+            transform: scale(1.03);
+        }
+
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s;
+        }
+
+        .photo-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(139, 69, 19, 0.8);
+            color: #FFD700;
+            padding: 10px;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+            text-align: center;
+        }
+
+        .photo-item:hover .photo-caption {
+            transform: translateY(0);
+        }
+
+        footer {
+            background-color: rgba(139, 69, 19, 0.9);
+            color: #FFD700;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 40px;
+            width: 100%;
+        }
+
+      
+    </style>
+</head>
+<body>
+    <div class="overlay">
+        <header>
+            <h1>La bottega delle api di Simone</h1>
+            <p class="sottotitolo">Galleria Fotografica</p>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="fotografie.html">Galleria</a>
+                <a href="lanostrastoria">La Nostra Storia</a>
+            </nav>
+        </header>
+
+        <div class="container">
+            <h2 class="gallery-title">La Nostra Vita con le Api</h2>
+            
+            <div class="photo-gallery">
+                <!-- Foto 1 -->
+                <div class="photo-item">
+                    <img src="acacia250.jpg" alt="Alveare primaverile">
+                    <div class="photo-caption">Alveare primaverile</div>
+                </div>
+                
+                <!-- Foto 2 -->
+                <div class="photo-item">
+                    <img src="acacia500.jpg" alt="Raccolta del miele">
+                    <div class="photo-caption">Raccolta del miele</div>
+                </div>
+                
+                <!-- Foto 3 -->
+                <div class="photo-item">
+                    <img src="acacia1000.jpg" alt="Api al lavoro">
+                    <div class="photo-caption">Api al lavoro</div>
+                </div>
+                
+                <!-- Foto 4 -->
+                <div class="photo-item">
+                    <img src="sfondo.jpg" alt="Fioritura di acacia">
+                    <div class="photo-caption">Fioritura di acacia</div>
+                </div>
+                
+                <!-- Foto 5 -->
+                <div class="photo-item">
+                    <img src="foto5.jpg" alt="Smielatura artigianale">
+                    <div class="photo-caption">Smielatura artigianale</div>
+                </div>
+                
+                <!-- Foto 6 -->
+                <div class="photo-item">
+                    <img src="foto6.jpg" alt="Prodotti dell'alveare">
+                    <div class="photo-caption">Prodotti dell'alveare</div>
+                </div>
+                
+                <!-- Foto 7 -->
+                <div class="photo-item">
+                    <img src="foto7.jpg" alt="Campo fiorito">
+                    <div class="photo-caption">Campo fiorito</div>
+                </div>
+                
+                <!-- Foto 8 -->
+                <div class="photo-item">
+                    <img src="foto8.jpg" alt="Lavorazione della cera">
+                    <div class="photo-caption">Lavorazione della cera</div>
+                </div>
+                
+                <!-- Foto 9 -->
+                <div class="photo-item">
+                    <img src="foto9.jpg" alt="Miele in vasetti">
+                    <div class="photo-caption">Miele in vasetti</div>
+                </div>
+                
+                <!-- Foto 10 -->
+                <div class="photo-item">
+                    <img src="foto10.jpg" alt="Visita didattica">
+                    <div class="photo-caption">Visita didattica</div>
+                </div>
+                
+                <!-- Foto 11 -->
+                <div class="photo-item">
+                    <img src="foto11.jpg" alt="Apiario in montagna">
+                    <div class="photo-caption">Apiario in montagna</div>
+                </div>
+                
+                <!-- Foto 12 -->
+                <div class="photo-item">
+                    <img src="foto12.jpg" alt="Favo di miele">
+                    <div class="photo-caption">Favo di miele</div>
+                </div>
+                
+                <!-- Foto 13 -->
+                <div class="photo-item">
+                    <img src="foto13.jpg" alt="Propoli grezza">
+                    <div class="photo-caption">Propoli grezza</div>
+                </div>
+                
+                <!-- Foto 14 -->
+                <div class="photo-item">
+                    <img src="foto14.jpg" alt="Mercato contadino">
+                    <div class="photo-caption">Mercato contadino</div>
+                </div>
+                
+                <!-- Foto 15 -->
+                <div class="photo-item">
+                    <img src="foto15.jpg" alt="Pacchi d'api">
+                    <div class="photo-caption">Pacchi d'api</div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>La bottega delle api di Simone</p>
+            <p>P.IVA 12345678901</p>
+            <p>Email: info@labottegadellesapidisimone.it</p>
+        </footer>
+    </div>
+</body>
+</html>
